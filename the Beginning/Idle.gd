@@ -7,7 +7,7 @@ func enter(_msg:= {}) -> void:
 func update(delta: float):
 	if owner.velocity != Vector2.ZERO:
 		state_machine.transition_to("Move")
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") or Input.is_action_just_pressed("2nd_attack"):
 		state_machine.transition_to("Attack")
 	if Input.is_action_pressed("run"):
 		state_machine.transition_to("Run")

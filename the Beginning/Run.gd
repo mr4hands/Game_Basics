@@ -1,8 +1,7 @@
 extends State
 
 func physics_update(delta: float) -> void:	
-	print("running state")
-	owner.speed = 400
+	owner.speed = 250
 	owner.move()
 	if owner.velocity == Vector2.ZERO:
 		state_machine.transition_to("Idle")

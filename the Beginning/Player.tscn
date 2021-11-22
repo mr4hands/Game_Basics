@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://New Piskel-1.png (1).png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Run.gd" type="Script" id=7]
 [ext_resource path="res://Attack.gd" type="Script" id=8]
 [ext_resource path="res://AttackBox.tscn" type="PackedScene" id=9]
+[ext_resource path="res://npt_nyknck/100053.png" type="Texture" id=10]
+[ext_resource path="res://npt_nyknck/100136.png" type="Texture" id=11]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 9.02849
@@ -17,11 +19,74 @@ radius = 9.02849
 radius = 8.02427
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 9.51836, 6.82217 )
+extents = Vector2( 8.84192, 18.6466 )
 
-[node name="Player" type="KinematicBody2D"]
+[sub_resource type="CircleShape2D" id=4]
+radius = 26.5444
+
+[sub_resource type="Animation" id=10]
+resource_name = "attack"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Main:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.200715 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite/MainAttackBox/Second:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.101985, 0.207225 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "attack_num2"
+length = 0.3
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Second:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.20397 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0, 12 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite/MainAttackBox/Main:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.041228, 0.0813711 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=[
+"Hero",
+]]
 position = Vector2( 592, 355.034 )
 scale = Vector2( 0.302896, 0.29412 )
+z_index = 4
 script = ExtResource( 1 )
 speed = 300.0
 
@@ -41,15 +106,20 @@ position = Vector2( 0.00605774, 0.259148 )
 scale = Vector2( 1.50494, 1.60517 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/HurtBox"]
-visible = false
 position = Vector2( -0.117355, -0.322571 )
 shape = SubResource( 2 )
 
-[node name="AttackBox" parent="Sprite" instance=ExtResource( 9 )]
+[node name="MainAttackBox" parent="Sprite" instance=ExtResource( 9 )]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/AttackBox"]
+[node name="Main" type="CollisionShape2D" parent="Sprite/MainAttackBox"]
 position = Vector2( 25.2459, -0.948875 )
 shape = SubResource( 3 )
+disabled = true
+
+[node name="Second" type="CollisionShape2D" parent="Sprite/MainAttackBox"]
+position = Vector2( -0.15683, -0.0427094 )
+scale = Vector2( 1.32692, 1.20494 )
+shape = SubResource( 4 )
 disabled = true
 
 [node name="StateMachine" type="Node" parent="."]
@@ -67,5 +137,25 @@ script = ExtResource( 7 )
 
 [node name="Attack" type="Node" parent="StateMachine"]
 script = ExtResource( 8 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/attack = SubResource( 10 )
+anims/attack_num2 = SubResource( 11 )
+
+[node name="Main" type="Sprite" parent="."]
+scale = Vector2( 6.81059, 6.81059 )
+texture = ExtResource( 10 )
+hframes = 5
+vframes = 2
+frame = 7
+
+[node name="Second" type="Sprite" parent="."]
+position = Vector2( 299.339, -34.8455 )
+rotation = 0.785398
+scale = Vector2( -2.76555, 2.76555 )
+texture = ExtResource( 11 )
+hframes = 5
+vframes = 3
+frame = 12
 
 [connection signal="on_take_damage" from="Sprite/HurtBox" to="." method="_on_HurtBox_on_take_damage"]

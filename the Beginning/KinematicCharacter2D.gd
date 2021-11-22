@@ -33,18 +33,17 @@ func aim():
 		var angle = get_angle_to(target)
 		rotate(angle)
 
-func attack():
+func attack(attack_type):
 	print("HIIIIAAAAA")
-	pass
+	
 	
 func take_damage(damage):
 	print("ouch")
 	health -= damage
-	pass
+	
 	
 
 func process_character():
 	if health <= 0:
-		print("died")
-		queue_free()
-	pass
+		visible = false
+	
